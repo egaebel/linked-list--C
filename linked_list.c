@@ -54,11 +54,7 @@ void add_to_end_list(List *list, Node *node) {
 	list->size++;
 }
 
-Node* get_at_index_list(List *list, int index) {
-
-}
-
-bool add_to_index_list(List *list, Node *node, int index) {
+int add_to_index_list(List *list, Node *node, int index) {
 
 	if (index <= list->size && index > -1) {
 
@@ -72,6 +68,60 @@ bool add_to_index_list(List *list, Node *node, int index) {
 		}
 		else if(index == 0) {
 
+			node->next = list->head.next;
+			node->prev = &(list->prev);
+
+			list->head.next = node;
+			node->next->prev = node;
+		}
+		//Start at end
+		else if (index > (list->size / 2)) {
+
+			Node *it = &list.tail;
+			for (int i = list->size; it != &list.head; it = it->prev; i--) {
+
+				if (i == index) {
+
+					node->next = it;
+					node->prev = it->prev;
+
+					it->prev->next = node;
+					it->prev = node;
+				}
+			}
+		}
+		//Start at beginning
+		else {
+
+			Node *it = &list.head;
+			for (int i = 0; it != &list.head; it->prev; i++) {
+
+				if (i == index) {
+
+					node->next = it->next;
+					node->prev = it;
+
+					it->next->prev = node;
+					it->next = node;
+				}
+			}
+		}
+
+		list->size++;
+
+		return 1;
+	}
+
+	return 0;
+}
+
+Node* get_at_index_list(List *list, int index) {
+
+	if (index < list->size && index > -1) {
+
+		if(index == 0) {
+
+			return &list->head;
 		}
 		//Start at end
 		else if (index > (list->size / 2)) {
@@ -79,27 +129,33 @@ bool add_to_index_list(List *list, Node *node, int index) {
 			Node *it = &list.tail;
 			for (int i = list->size - 1; it != &list.head; it = it->prev; i--) {
 
+				if (i == index) {
 
+					return it;
+				}
 			}
 		}
 		//Start at beginning
 		else {
 
+			Node *it = &list.head;
+			for (int i = 0; it != &list.head; it->prev; i++) {
+
+				if (i == index) {
+
+					return it;
+				}
+			}
 		}
-
-		list->size++;
-
-		return true;
 	}
 
-	return false;
+	return NULL;
 }
-
 
 //Pops the element at the front of the list off and returns it
 //Return the removed node if successful
 //Return NULL if the List is empty
-Node* remove_list(List *list) {
+Node* remove_front_list(List *list) {
 
 	//if list is empty
 	if (is_empty(list) == 0) {
@@ -116,6 +172,26 @@ Node* remove_list(List *list) {
 		list->head.next->prev = &(list->head);
 
 		//kill temp's access to the list
+		temp->prev = NULL;
+		temp->next = NULL;
+
+		return temp;
+	}
+}
+
+Node* remove_end_list(List *list) {
+
+	if (is_empty(list) == 0) {
+
+		return NULL;	
+	}
+	else {
+
+		Node *temp = list->head.next;
+
+		list->tail.prev = list->tail.prev->prev;
+		list->tail.prev->next = &(list->head);
+
 		temp->prev = NULL;
 		temp->next = NULL;
 

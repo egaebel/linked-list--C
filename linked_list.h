@@ -1,12 +1,12 @@
-#ifndef LINKED_QUEUE_H_
-#define LINKED_QUEUE_H_
+#ifndef LINKED_LIST_H_
+#define LINKED_LIST_H_
 
 #include <inttypes.h>
 #include <stddef.h>
 #include <stdlib.h>
 
 //Preprocessor macro which converts a AdjNode to the structure the AdjNode is IN (Duct tape style!)
-#define QUEUE_ENTRY(NODE, STRUCT, MEMBER) 					\
+#define LIST_ENTRY(NODE, STRUCT, MEMBER) 					\
 	((STRUCT *)((uint8_t*)(NODE) - offsetof(STRUCT, MEMBER)))
 
 //struct definitions----------------------------------
@@ -34,8 +34,12 @@ void init_list(List *q);
 void init_qnode(Node *node);
 List* create_list();
 
-void add_list(List *q, Node *node);
-Node* remove_list(List *q);
+void add_to_front_list(List *list, Node *node);
+void add_to_end_list(List *list, Node *node);
+int add_to_index_list(List *list, Node *node, int index);
+Node* get_at_index_list(List *list, int index);
+Node* remove_front_list(List *list);
+Node* remove_end_list(List *list);
 
 int is_empty (List *q);
 
