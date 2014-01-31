@@ -31,16 +31,19 @@ typedef struct linked_list List;
 
 //Prototypes------------------------------------------------------
 void init_list(List *q);
-void init_qnode(Node *node);
+void init_node(Node *node);
 List* create_list();
 
 void add_to_front_list(List *list, Node *node);
 void add_to_end_list(List *list, Node *node);
 int add_to_index_list(List *list, Node *node, int index);
+
 Node* get_at_index_list(List *list, int index);
+
 Node* remove_front_list(List *list);
 Node* remove_end_list(List *list);
 
+int size(List *list) {
 int is_empty (List *q);
 
 #endif

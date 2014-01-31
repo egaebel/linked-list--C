@@ -34,7 +34,7 @@ void init_node(Node *node) {
 void add_to_front_list(List *list, Node *node) {
 
 	node->next = list->head.next;
-	node->prev = &(list->prev);
+	node->prev = &(list->head);
 
 	list->head.next = node;
 	node->next->prev = node;
@@ -58,7 +58,7 @@ int add_to_index_list(List *list, Node *node, int index) {
 
 	if (index <= list->size && index > -1) {
 
-		if (index == size) {
+		if (index == list->size) {
 			
 			node->next = &(list->tail);
 			node->prev = list->tail.prev;
@@ -69,7 +69,7 @@ int add_to_index_list(List *list, Node *node, int index) {
 		else if(index == 0) {
 
 			node->next = list->head.next;
-			node->prev = &(list->prev);
+			node->prev = &(list->head);
 
 			list->head.next = node;
 			node->next->prev = node;
@@ -77,8 +77,9 @@ int add_to_index_list(List *list, Node *node, int index) {
 		//Start at end
 		else if (index > (list->size / 2)) {
 
-			Node *it = &list.tail;
-			for (int i = list->size; it != &list.head; it = it->prev; i--) {
+			Node *it = &(list->tail);
+			int i = list->size;
+			for (; it != &(list->head); it = it->prev, i--) {
 
 				if (i == index) {
 
@@ -93,8 +94,9 @@ int add_to_index_list(List *list, Node *node, int index) {
 		//Start at beginning
 		else {
 
-			Node *it = &list.head;
-			for (int i = 0; it != &list.head; it->prev; i++) {
+			Node *it = &(list->head);
+			int i = 0;
+			for (; it != &(list->head); it = it->prev, i++) {
 
 				if (i == index) {
 
@@ -126,8 +128,9 @@ Node* get_at_index_list(List *list, int index) {
 		//Start at end
 		else if (index > (list->size / 2)) {
 
-			Node *it = &list.tail;
-			for (int i = list->size - 1; it != &list.head; it = it->prev; i--) {
+			Node *it = &list->tail;
+			int i = list->size - 1;
+			for (; it != &list->head; it = it->prev, i--) {
 
 				if (i == index) {
 
@@ -138,8 +141,9 @@ Node* get_at_index_list(List *list, int index) {
 		//Start at beginning
 		else {
 
-			Node *it = &list.head;
-			for (int i = 0; it != &list.head; it->prev; i++) {
+			Node *it = &list->head;
+			int i = 0;
+			for (; it != &list->head; it->prev, i++) {
 
 				if (i == index) {
 
@@ -175,6 +179,8 @@ Node* remove_front_list(List *list) {
 		temp->prev = NULL;
 		temp->next = NULL;
 
+		list->size--;
+
 		return temp;
 	}
 }
@@ -195,8 +201,14 @@ Node* remove_end_list(List *list) {
 		temp->prev = NULL;
 		temp->next = NULL;
 
+		list->size--;
+
 		return temp;
 	}
+}
+
+int size(List *list) {
+	return list->size;
 }
 
 //Takes in a List, returns if its empty
