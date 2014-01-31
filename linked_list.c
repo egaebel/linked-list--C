@@ -96,7 +96,7 @@ int add_to_index_list(List *list, Node *node, int index) {
 
 			Node *it = &(list->head);
 			int i = 0;
-			for (; it != &(list->head); it = it->prev, i++) {
+			for (; it != &(list->head); it = it->next, i++) {
 
 				if (i == index) {
 
@@ -143,7 +143,7 @@ Node* get_at_index_list(List *list, int index) {
 
 			Node *it = &list->head;
 			int i = 0;
-			for (; it != &list->head; it->prev, i++) {
+			for (; it != &list->head; it = it->next, i++) {
 
 				if (i == index) {
 
@@ -183,6 +183,20 @@ Node* remove_front_list(List *list) {
 
 		return temp;
 	}
+}
+
+Node* remove_list(List *list, Node *node) {
+
+	Node *it = &list->head;
+	for (; it != &list->head; it = it->next) {
+
+		if (it == node) {
+
+			return node;
+		}
+	}
+
+	return NULL;
 }
 
 Node* remove_end_list(List *list) {
