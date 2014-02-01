@@ -31,6 +31,15 @@ void init_node(Node *node) {
 	node->prev = NULL;
 }
 
+void add_before_node(Node *before_node, Node *new_node) {
+
+	new_node->prev = before_node->prev;
+	new_node->next = before_node;
+
+	before_node->prev->next = new_node;
+	before_node->prev = new_node;
+}
+
 void add_to_front_list(List *list, Node *node) {
 
 	node->next = list->head.next;
