@@ -42,7 +42,7 @@ Node* get_at_index_list(List *list, int index);
 
 Node* remove_front_list(List *list);
 Node* remove_end_list(List *list);
-Node* remove_list(List *list, Node *node);
+Node* remove_list(Node *node);
 
 int is_empty (List *q);
 

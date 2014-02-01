@@ -194,18 +194,15 @@ Node* remove_front_list(List *list) {
 	}
 }
 
-Node* remove_list(List *list, Node *node) {
+Node* remove_list(Node *node) {
 
-	Node *it = &list->head;
-	for (; it != &list->head; it = it->next) {
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
 
-		if (it == node) {
+	node->next = NULL;
+	node->prev = NULL;
 
-			return node;
-		}
-	}
-
-	return NULL;
+	return node;
 }
 
 Node* remove_end_list(List *list) {
